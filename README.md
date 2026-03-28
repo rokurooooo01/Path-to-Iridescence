@@ -32,3 +32,6 @@ this code uses whatever version C++ it is rn, STL and pure text interface.
 
 # note
 while i like programming and tech, not like i want to main this as my career path, im still a pure math type guy, dont compare my project with other people, after all im proud with what i can do.
+
+# pull request
+all are welcome to 'pull request' if you want to
