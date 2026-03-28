@@ -1,34 +1,9 @@
-/*
-================================================================================
-Project Name: Path to Iridescent
-Team Members: [Your Name], [Matrix], [Email]
-Abstract: A turn-based text puzzle game where the player navigates multi-floor 
-          stages to reach an endpoint while being hunted by a shadow entity.
-
-PjPBL Part II Requirements Fulfilled:
-- Looping: Main game loop, log rendering loop.
-- Selection: Switch statements for movement, if/else for collisions.
-- Arrays: 1D arrays storing configurations for 5 different stages.
-- Pointers: Used in the applyMove() function to directly update coordinates.
-- Functions: Modularized UI rendering, movement, and AI logic.
-- STL: std::vector and std::string used for dynamic event logging.
-
-[Part 1 Problem & Solution]
-Problem: In Part 1, the Shadow would move continuously, causing infinite loops 
-         or unfair immediate game-overs before the player could react.
-Solution: Implemented a turn-based system using _getch() and state-checks so 
-          the Shadow only calculates its pathfinding after a valid player move.
-================================================================================
-*/
-
 #include <iostream>
 #include <string>
 #include <vector>
-#include <conio.h> // For _getch()
-
+#include <conio.h> 
 using namespace std;
 
-// --- DATA STRUCTURES (Precision Improvement) ---
 struct Position {
     int x;
     int y;
@@ -36,28 +11,21 @@ struct Position {
 
 enum class GameState { PLAYING, CAUGHT, ESCAPED, EXIT };
 
-// --- GLOBAL STAGE ARRAYS (5 Stages Configured) ---
-// Index 0 is ignored so Stage 1 maps to Index 1.
 const int MAX_STAGE = 5;
 const int stageLengths[6] = { 0, 10, 15, 21, 25, 30 }; // Target X to win
 const int stairPos[6]     = { 0, -1,  8,  8, 12, 15 }; // X-coordinate of stairs
 const int maxFloors[6]    = { 0,  0,  1,  2,  3,  4 }; // Maximum Y-coordinate (floors)
 
-// --- FUNCTIONS (Requirement Fulfilled) ---
-
-// 1. POINTER REQUIREMENT: Precisely updates the coordinate data in memory
 void applyMove(Position* pos, int dx, int dy) {
     pos->x += dx;
     pos->y += dy;
 }
 
-// 2. Utility Function: Checks if entity is at a valid ladder
 bool isAtLadder(const Position& pos, int currentStage) {
-    if (currentStage == 1) return false; // No ladders in stage 1
+    if (currentStage == 1) return false; 
     return (pos.x == stairPos[currentStage]);
 }
 
-// 3. STL & UI Function: Renders the precise game state
 void drawUI(int stage, Position player, Position shadow, bool shadowActive, const vector<string>& logs) {
     system("cls");
     cout << "========================================================\n";
@@ -76,8 +44,7 @@ void drawUI(int stage, Position player, Position shadow, bool shadowActive, cons
     cout << "--------------------------------------------------------\n";
     cout << " CONTROLS: W (Up) / S (Down) / A (Left) / D (Right)\n";
     cout << "--------------------------------------------------------\n";
-    
-    // LOOP REQUIREMENT: Iterate through STL vector
+ 
     for (size_t i = 0; i < logs.size(); i++) {
         cout << " > " << logs[i] << "\n";
     }
@@ -85,13 +52,10 @@ void drawUI(int stage, Position player, Position shadow, bool shadowActive, cons
     cout << "Action: ";
 }
 
-// 4. Shadow AI Logic (Extracted for precision)
 void processShadowAI(Position& player, Position& shadow, int stage) {
-    // Shadow moves towards player X first
     if (shadow.x < player.x) shadow.x++;
     else if (shadow.x > player.x) shadow.x--;
 
-    // If Shadow is at a ladder, it tries to match player Y
     if (isAtLadder(shadow, stage)) {
         if (shadow.y < player.y) shadow.y++;
         else if (shadow.y > player.y) shadow.y--;
@@ -106,27 +70,23 @@ int main() {
     Position shadow = {-1, 0};
     bool shadowActive = false;
     
-    vector<string> gameLogs; // STL Vector for action history
+    vector<string> gameLogs; 
     gameLogs.push_back("Game Initialized. Make your move.");
 
-    // MAIN GAME LOOP
     while (state != GameState::EXIT) {
-        
-        // Inner Loop for Active Stage
+     
         while (state == GameState::PLAYING) {
             drawUI(currentStage, player, shadow, shadowActive, gameLogs);
-            
-            // Keep logs strictly to the last 3 events
+         
             if (gameLogs.size() > 3) gameLogs.erase(gameLogs.begin());
 
             char input = _getch();
             bool validMove = false;
 
-            // SELECTION REQUIREMENT: Switch for movement
             switch (input) {
                 case 'd': case 'D':
                     if (player.x < stageLengths[currentStage]) {
-                        applyMove(&player, 1, 0); // Pointer call
+                        applyMove(&player, 1, 0); 
                         gameLogs.push_back("Player moved Right.");
                         validMove = true;
                     } else gameLogs.push_back("Wall ahead!");
@@ -154,10 +114,9 @@ int main() {
                     break;
                 default:
                     gameLogs.push_back("Invalid key pressed.");
-                    continue; // Jump Statement
+                    continue; 
             }
 
-            // Only process shadow if player made a valid move
             if (validMove) {
                 if (!shadowActive && player.x > 2) {
                     shadowActive = true;
@@ -169,7 +128,6 @@ int main() {
                 }
             }
 
-            // COLLISION & WIN DETECTION
             if (shadowActive && player.x == shadow.x && player.y == shadow.y) {
                 state = GameState::CAUGHT;
             } else if (player.x == stageLengths[currentStage] && player.y == maxFloors[currentStage]) {
@@ -177,7 +135,6 @@ int main() {
             }
         }
 
-        // --- STAGE END MENU (Post-Loop Selection) ---
         drawUI(currentStage, player, shadow, shadowActive, gameLogs);
         
         if (state == GameState::CAUGHT) {
