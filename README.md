@@ -29,3 +29,6 @@ use any C++ compiler or IDE and terminal (i usually use VS2026)
 credits to Kai Xue, Kai Xuan, Sofe and Za'im (he left PASUM) throughout this journey
 even though this is an assignment, again i dont really care on being serious in this, i just wanna have fun with it
 this code uses whatever version C++ it is rn, STL and pure text interface
+
+# note
+while i like programming and tech, not like i want to main this as my career path, im still a pure math type guy, dont compare my project with other people, after all im proud with what i can do
