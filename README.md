@@ -21,6 +21,13 @@ D for going right.
 
 while there is indicator where the escape door is located, since this is a text based game, there isnt mini map, so this shit is pretty much try and error lmao. maybe before the due date ends i will update this game a bit more.
 
+# changes
+as of march 31, a lot of changes have been made to improve the qol of this. they are:
+adding hints
+minimap
+randomised stair positions
+turn counter
+restrictions for the key
 
 # how to run this game?
 use any C++ compiler or IDE and terminal (i usually use VS2026).
