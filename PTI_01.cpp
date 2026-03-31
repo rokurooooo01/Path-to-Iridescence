@@ -31,7 +31,7 @@ bool isAtLadder(const Position& pos, int currentStage) {
 void drawUI(int stage, Position player, Position shadow, bool shadowActive, const vector<string>& logs) {
     system("cls");
     cout << "========================================================\n";
-    cout << "                  PATH OF IRIDESCENT                    \n";
+    cout << "                  PATH TO IRIDESCENT                    \n";
     cout << "========================================================\n";
     cout << " STAGE: " << stage << " | GOAL: Reach X=" << stageLengths[stage] 
          << " on Floor " << maxFloors[stage] << "\n";
